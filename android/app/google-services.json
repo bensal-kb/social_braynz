@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "236532260509",
+    "project_id": "social-braynz",
+    "storage_bucket": "social-braynz.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:236532260509:android:43a40c92f598b80fa83e74",
+        "android_client_info": {
+          "package_name": "com.social.braynz.social_braynz_task"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAibrPZ1zGS6pedph6hJNdJQ6HwZAz8CWM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,11 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Open read/write: this demo app has no auth by design.
+    // See README "What I deliberately left out" — a real deployment
+    // needs authentication and rules that reference it.
+    match /{document=**} {
+      allow read, write: if true;
+    }
+  }
+}

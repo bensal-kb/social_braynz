@@ -1,0 +1,34 @@
+{
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  },
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "social-braynz",
+          "appId": "1:236532260509:android:43a40c92f598b80fa83e74",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "ios": {
+        "default": {
+          "projectId": "social-braynz",
+          "appId": "1:236532260509:ios:af2f838603e23b69a83e74",
+          "uploadDebugSymbols": false,
+          "fileOutput": "ios/Runner/GoogleService-Info.plist"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "social-braynz",
+          "configurations": {
+            "android": "1:236532260509:android:43a40c92f598b80fa83e74",
+            "ios": "1:236532260509:ios:af2f838603e23b69a83e74"
+          }
+        }
+      }
+    }
+  }
+}
