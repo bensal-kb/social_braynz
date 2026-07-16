@@ -45,8 +45,10 @@ class ProductDetailPage extends StatelessWidget {
               return const Center(child: Text('This product no longer exists.'));
             }
             return ListView(
+              padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
               children: [
                 ProductDetailHeader(product: product),
+                const SizedBox(height: 20),
                 RecentSalesList(sales: state.recentSales),
               ],
             );

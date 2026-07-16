@@ -10,19 +10,27 @@ class SyncStatusBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (!isOffline) return const SizedBox.shrink();
-    return Container(
-      width: double.infinity,
-      color: context.theme.hint.withValues(alpha: 0.15),
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      child: Row(
-        children: [
-          Icon(Icons.cloud_off, size: 16, color: context.theme.hint),
-          const SizedBox(width: 8),
-          Text(
-            'Offline — showing saved data. Will sync when back online.',
-            style: TextStyle(fontSize: 12, color: context.theme.hint),
-          ),
-        ],
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+        decoration: BoxDecoration(
+          color: context.theme.hint.withValues(alpha: 0.12),
+          borderRadius: BorderRadius.circular(14),
+        ),
+        child: Row(
+          children: [
+            Icon(Icons.cloud_off, size: 16, color: context.theme.hint),
+            const SizedBox(width: 8),
+            Expanded(
+              child: Text(
+                'Offline — showing saved data. Will sync when back online.',
+                style: TextStyle(fontSize: 12, color: context.theme.hint),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

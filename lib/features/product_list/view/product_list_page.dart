@@ -8,6 +8,7 @@ import '../../../widgets/sync_status_banner.dart';
 import '../bloc/product_list_cubit/product_list_cubit.dart';
 import '../bloc/product_list_cubit/product_list_state.dart';
 import '../widgets/empty_products_view.dart';
+import '../widgets/inventory_summary.dart';
 import '../widgets/low_stock_banner.dart';
 import '../widgets/product_list_tile.dart';
 
@@ -26,27 +27,46 @@ class ProductListPage extends StatelessWidget {
         appBar: AppBar(title: Text(lowStockOnly ? 'Low Stock' : 'Inventory')),
         floatingActionButton: lowStockOnly
             ? null
-            : FloatingActionButton(
+            : FloatingActionButton.extended(
                 onPressed: () => context.push(Routes.addProduct),
-                child: const Icon(Icons.add),
+                backgroundColor: context.theme.primary,
+                foregroundColor: context.theme.light,
+                icon: const Icon(Icons.add),
+                label: const Text('Add Product'),
               ),
         child: StateWidget<ProductListCubit, ProductListState>(
           builder: (context, state) {
             final products = state.visibleProducts;
-            return Column(
+
+            if (products.isEmpty) {
+              return Padding(
+                padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+                child: Column(
+                  children: [
+                    SyncStatusBanner(isOffline: state.showOfflineBanner),
+                    Expanded(child: EmptyProductsView(lowStockOnly: lowStockOnly)),
+                  ],
+                ),
+              );
+            }
+
+            return ListView(
+              padding: const EdgeInsets.fromLTRB(16, 8, 16, 96),
               children: [
                 SyncStatusBanner(isOffline: state.showOfflineBanner),
-                if (!lowStockOnly) LowStockBanner(count: state.lowStockCount),
-                Expanded(
-                  child: products.isEmpty
-                      ? EmptyProductsView(lowStockOnly: lowStockOnly)
-                      : ListView.separated(
-                          itemCount: products.length,
-                          separatorBuilder: (_, _) => const Divider(height: 1),
-                          itemBuilder: (context, index) =>
-                              ProductListTile(product: products[index]),
-                        ),
-                ),
+                if (!lowStockOnly) ...[
+                  InventorySummary(
+                    products: state.products,
+                    lowStockCount: state.lowStockCount,
+                  ),
+                  const SizedBox(height: 12),
+                  LowStockBanner(count: state.lowStockCount),
+                ],
+                for (final product in products)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: ProductListTile(product: product),
+                  ),
               ],
             );
           },

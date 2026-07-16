@@ -17,19 +17,46 @@ class QuantityStepper extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        IconButton.filledTonal(
-          onPressed: onDecrement,
-          icon: const Icon(Icons.remove),
+        _StepButton(icon: Icons.remove, onPressed: onDecrement),
+        Container(
+          constraints: const BoxConstraints(minWidth: 88),
+          alignment: Alignment.center,
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Text(
+            '$quantity',
+            style: TextStyle(
+              fontSize: 32,
+              fontWeight: FontWeight.w700,
+              color: context.theme.text,
+            ),
+          ),
         ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Text('$quantity', style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
-        ),
-        IconButton.filledTonal(
-          onPressed: onIncrement,
-          icon: const Icon(Icons.add),
-        ),
+        _StepButton(icon: Icons.add, onPressed: onIncrement),
       ],
+    );
+  }
+}
+
+class _StepButton extends StatelessWidget {
+  const _StepButton({required this.icon, required this.onPressed});
+
+  final IconData icon;
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: context.theme.primary.withValues(alpha: 0.10),
+      borderRadius: BorderRadius.circular(14),
+      child: InkWell(
+        onTap: onPressed,
+        borderRadius: BorderRadius.circular(14),
+        child: SizedBox(
+          width: 52,
+          height: 52,
+          child: Icon(icon, color: context.theme.primary),
+        ),
+      ),
     );
   }
 }

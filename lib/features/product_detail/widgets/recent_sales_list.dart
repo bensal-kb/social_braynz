@@ -12,27 +12,99 @@ class RecentSalesList extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Text(
-            'Recent Sales',
-            style: TextStyle(fontWeight: FontWeight.bold, color: context.theme.text),
+        Text(
+          'Recent Sales',
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w700,
+            color: context.theme.text,
           ),
         ),
-        if (sales.isEmpty)
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Text('No sales logged yet.', style: TextStyle(color: context.theme.hint)),
-          )
-        else
-          ...sales.map(
-            (sale) => ListTile(
-              title: Text('${sale.quantitySold} sold'),
-              subtitle: Text(formatDateTime(sale.timestamp)),
-              trailing: Text(formatCurrency(sale.total)),
+        const SizedBox(height: 10),
+        Container(
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: context.theme.surface,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: context.theme.divider),
+          ),
+          child: sales.isEmpty
+              ? Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Text(
+                    'No sales logged yet.',
+                    style: TextStyle(color: context.theme.hint),
+                  ),
+                )
+              : Column(
+                  children: [
+                    for (var i = 0; i < sales.length; i++) ...[
+                      if (i > 0)
+                        Divider(height: 1, color: context.theme.divider),
+                      _SaleRow(sale: sales[i]),
+                    ],
+                  ],
+                ),
+        ),
+      ],
+    );
+  }
+}
+
+class _SaleRow extends StatelessWidget {
+  const _SaleRow({required this.sale});
+
+  final SaleModel sale;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+      child: Row(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: context.theme.success.withValues(alpha: 0.10),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Icon(
+              Icons.point_of_sale,
+              size: 18,
+              color: context.theme.success,
             ),
           ),
-      ],
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  '${sale.quantitySold} sold',
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: context.theme.text,
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  formatDateTime(sale.timestamp),
+                  style: TextStyle(fontSize: 12, color: context.theme.hint),
+                ),
+              ],
+            ),
+          ),
+          Text(
+            formatCurrency(sale.total),
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w700,
+              color: context.theme.text,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
